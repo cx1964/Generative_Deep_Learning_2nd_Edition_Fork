@@ -7,6 +7,11 @@
 #            - Of de laatste versie van python is ingesteld.
 #              zo nee pas die eventueel aan  
 #            - Of dat men in de project directory staat als men dit script draait
+#
+#            Dit script is om een python environment te maken
+#            zodat geen gebruik van docker container hoeft gemaakt te worden
+#            om de benodigde (python) omgeving in te maken.
+#
 # documentatie: https://www.activestate.com/resources/quick-reads/how-to-manage-python-dependencies-with-virtual-environments/
 #               mbt bash https://linuxconfig.org/bash-scripting-tutorial-for-beginners
 
