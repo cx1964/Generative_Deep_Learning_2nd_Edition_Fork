@@ -5,6 +5,7 @@
 #            wordt er een kaggel.json file aangemaakt in ~/Downloads.
 #            Deze file moet geplaats worden in ~/.kaggle/ subdirectory.
 #            Dit script zorgt daarvoor
+# Doc: zie https://github.com/Kaggle/kaggle-api
 
 # create directory
 cd ~
