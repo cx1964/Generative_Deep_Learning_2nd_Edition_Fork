@@ -1,6 +1,8 @@
-docker compose exec app bash -c "
-mkdir /app/data/bach-cello/
-cd /app/data/bach-cello/ && 
+# file   : download_bach_cello_data.aangepast.local.sh
+# functie: aangepast versie van download_bach_cello_data.sh
+#          tbv local download zonder docker
+mkdir -p ~/Documents/app/data/bach-cello/
+cd ~/Documents/app/data/bach-cello/ && 
 echo 'Downloading...' && 
 curl -O http://www.jsbach.net/midi/cs1-1pre.mid -s &&
 curl -O http://www.jsbach.net/midi/cs1-2all.mid -s &&
@@ -39,4 +41,3 @@ curl -O http://www.jsbach.net/midi/cs6-4sar.mid -s &&
 curl -O http://www.jsbach.net/midi/cs6-5gav.mid -s &&
 curl -O http://www.jsbach.net/midi/cs6-6gig.mid -s &&
 echo '🚀 Done!'
-" 
