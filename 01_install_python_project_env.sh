@@ -52,6 +52,8 @@ else
   # install python version
   pipenv --python $PYTHON_VERSION
 
+  pipenv install jupyter
+  
   ### Begin aanpassen ###
   # welke pipenv install packages geinstalleerd moet worden obvb requirements.txt
   pipenv install matplotlib==3.6.3
