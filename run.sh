@@ -1,4 +1,4 @@
 # file: run.sh
-# functie: run t.py
+# functie: run music_gen_obv_generative_deep_learning_Transformer.py
 
-pipenv run python3 t.py
+pipenv run python3 music_gen_obv_generative_deep_learning_Transformer.py
