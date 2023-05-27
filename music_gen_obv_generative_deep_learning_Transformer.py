@@ -133,7 +133,7 @@ for i, (note_int, duration_int) in enumerate(
         example_tokenised_notes.numpy()[:11],
         example_tokenised_durations.numpy()[:11],
     )
-):
+    ):
     print(f"{note_int:10}{duration_int:10}") 
 
 #cel12 
@@ -149,7 +149,7 @@ print(f"\nDURATIONS_VOCAB: length = {len(durations_vocab)}")
 # Display some token:duration mappings
 for i, note in enumerate(durations_vocab[:10]):
     print(f"{i}: {note}") 
-    
+print("Hier ok1")    
 #cel13 
 # 3. Creating the training set
 # Create the training set of sequences and the same sequences shifted by one note
@@ -168,6 +168,7 @@ ds = seq_ds.map(prepare_inputs).repeat(DATASET_REPETITIONS)
 #cel14 
 example_input_output = ds.take(1).get_single_element()
 print(example_input_output) 
+print("Hier ok2")  
 
 #cel15
 # 5. Create the causal attention mask function 
@@ -183,11 +184,12 @@ def causal_attention_mask(batch_size, n_dest, n_src, dtype):
     return tf.tile(mask, mult)
 
 np.transpose(causal_attention_mask(1, 10, 10, dtype=tf.int32)[0]) 
+print("Hier ok3")  
          
 #cel16 
 # 6. Create a Transformer Block layer
 class TransformerBlock(layers.Layer):
-    def __init__(
+      def __init__(
         self,
         num_heads,
         key_dim,
@@ -195,7 +197,7 @@ class TransformerBlock(layers.Layer):
         ff_dim,
         name,
         dropout_rate=DROPOUT_RATE,
-    ):
+      ):
         super(TransformerBlock, self).__init__(name=name)
         self.num_heads = num_heads
         self.key_dim = key_dim
@@ -203,7 +205,7 @@ class TransformerBlock(layers.Layer):
         self.ff_dim = ff_dim
         self.dropout_rate = dropout_rate
         self.attn = layers.MultiHeadAttention(
-            num_heads, key_dim, output_shape=embed_dim
+              num_heads, key_dim, output_shape=embed_dim
         )
         self.dropout_1 = layers.Dropout(self.dropout_rate)
         self.ln_1 = layers.LayerNormalization(epsilon=1e-6)
@@ -212,29 +214,29 @@ class TransformerBlock(layers.Layer):
         self.dropout_2 = layers.Dropout(self.dropout_rate)
         self.ln_2 = layers.LayerNormalization(epsilon=1e-6)
 
-    def call(self, inputs):
-        input_shape = tf.shape(inputs)
-        batch_size = input_shape[0]
-        seq_len = input_shape[1]
-        causal_mask = causal_attention_mask(
+      def call(self, inputs):
+          input_shape = tf.shape(inputs)
+          batch_size = input_shape[0]
+          seq_len = input_shape[1]
+          causal_mask = causal_attention_mask(
             batch_size, seq_len, seq_len, tf.bool
-        )
-        attention_output, attention_scores = self.attn(
+          )
+          attention_output, attention_scores = self.attn(
             inputs,
             inputs,
             attention_mask=causal_mask,
             return_attention_scores=True,
-        )
-        attention_output = self.dropout_1(attention_output)
-        out1 = self.ln_1(inputs + attention_output)
-        ffn_1 = self.ffn_1(out1)
-        ffn_2 = self.ffn_2(ffn_1)
-        ffn_output = self.dropout_2(ffn_2)
-        return (self.ln_2(out1 + ffn_output), attention_scores)
+          )
+          attention_output = self.dropout_1(attention_output)
+          out1 = self.ln_1(inputs + attention_output)
+          ffn_1 = self.ffn_1(out1)
+          ffn_2 = self.ffn_2(ffn_1)
+          ffn_output = self.dropout_2(ffn_2)
+          return (self.ln_2(out1 + ffn_output), attention_scores)
 
-    def get_config(self):
-        config = super().get_config()
-        config.update(
+      def get_config(self):
+          config = super().get_config()
+          config.update(
             {
                 "key_dim": self.key_dim,
                 "embed_dim": self.embed_dim,
@@ -242,36 +244,37 @@ class TransformerBlock(layers.Layer):
                 "ff_dim": self.ff_dim,
                 "dropout_rate": self.dropout_rate,
             }
-        )
-        return config 
-    #cel17
-    # 7. Create the Token and Position Embedding 
-    class TokenAndPositionEmbedding(layers.Layer):
-        def __init__(self, vocab_size, embed_dim):
-            super(TokenAndPositionEmbedding, self).__init__()
-            self.vocab_size = vocab_size
-            self.embed_dim = embed_dim
-            self.token_emb = layers.Embedding(
+          )
+          return config
+       
+#cel17
+# 7. Create the Token and Position Embedding
+class TokenAndPositionEmbedding(layers.Layer):
+      def __init__(self, vocab_size, embed_dim):
+          super(TokenAndPositionEmbedding, self).__init__()
+          self.vocab_size = vocab_size
+          self.embed_dim = embed_dim
+          self.token_emb = layers.Embedding(
             input_dim=vocab_size,
-            output_dim=embed_dim,
-            embeddings_initializer="he_uniform",
-        )
-        self.pos_emb = SinePositionEncoding()
+             output_dim=embed_dim,
+             embeddings_initializer="he_uniform",
+          )
+          self.pos_emb = SinePositionEncoding()
+      
+      def call(self, x):
+          embedding = self.token_emb(x)
+          positions = self.pos_emb(embedding)
+          return embedding + positions
 
-        def call(self, x):
-            embedding = self.token_emb(x)
-            positions = self.pos_emb(embedding)
-            return embedding + positions
-
-        def get_config(self):
-            config = super().get_config()
-            config.update(
-              {
+      def get_config(self):
+          config = super().get_config()
+          config.update(
+            {
                 "vocab_size": self.vocab_size,
                 "embed_dim": self.embed_dim,
-              }
-            )
-            return config 
+            }
+          )
+          return config 
     
 #cel18
 tpe = TokenAndPositionEmbedding(notes_vocab_size, 32)
@@ -492,7 +495,7 @@ tensorboard_callback = callbacks.TensorBoard(log_dir="./logs")
 music_generator = MusicGenerator(notes_vocab, durations_vocab)
 
 #cel24
-print("afmaken")
+print("afmaken cel24")
 # hier code van wat in notebook fout loopt 
 
 #cel25
