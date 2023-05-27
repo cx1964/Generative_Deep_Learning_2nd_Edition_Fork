@@ -474,7 +474,8 @@ class MusicGenerator(callbacks.Callback):
         )
         midi_stream = info[-1]["midi"].chordify()
         print(info[-1]["prompt"])
-        midi_stream.show()
+        ## uitgezet 
+        # midi_stream.show()
         midi_stream.write(
             "midi",
             fp=os.path.join(
