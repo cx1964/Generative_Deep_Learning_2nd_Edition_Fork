@@ -23,7 +23,9 @@ from transformer_utils import (
 # cel2
 PARSE_MIDI_FILES = True
 #PARSED_DATA_PATH = "/app/notebooks/11_music/01_transformer/parsed_data/"
-PARSED_DATA_PATH = "/home/claude/Documents/sources/python/python3/AI/Generative_Deep_Learning_2nd_Edition_Fork/notebooks/11_music/01_transformer/parsed_data/"
+HOME_DIR_PATH = "/home/claude/Documents/sources/python/python3/AI/Generative_Deep_Learning_2nd_Edition_Fork/"
+# PARSED_DATA_PATH = "/home/claude/Documents/sources/python/python3/AI/Generative_Deep_Learning_2nd_Edition_Fork/notebooks/11_music/01_transformer/parsed_data/"
+PARSED_DATA_PATH = HOME_DIR_PATH + "notebooks/11_music/01_transformer/parsed_data/"
 DATASET_REPETITIONS = 1
 
 SEQ_LEN = 50
@@ -476,7 +478,9 @@ class MusicGenerator(callbacks.Callback):
         midi_stream.write(
             "midi",
             fp=os.path.join(
-                "/app/notebooks/11_music/01_transformer/output",
+                # dit gaat fout !!!
+                HOME_DIR_PATH+"notebooks/11_music/01_transformer/output"
+                #"/app/notebooks/11_music/01_transformer/output",
                 "output-" + str(epoch).zfill(4) + ".mid",
             ),
         )
@@ -495,8 +499,21 @@ tensorboard_callback = callbacks.TensorBoard(log_dir="./logs")
 music_generator = MusicGenerator(notes_vocab, durations_vocab)
 
 #cel24
-print("afmaken cel24")
-# hier code van wat in notebook fout loopt 
+print("begin cel24: model.fit")
+# Hier gaat wat fout
+model.fit(
+    ds,
+    epochs=EPOCHS,
+    callbacks=[
+        model_checkpoint_callback,
+        tensorboard_callback,
+        music_generator,
+    ],
+)
+# Hieronder wordt niet getoond !!!!!
+print("einde cel24")
 
 #cel25
+print("afmaken cel25")
+
 #cel26    
