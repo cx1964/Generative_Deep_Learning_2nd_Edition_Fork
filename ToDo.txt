@@ -1,4 +1,16 @@
-ToDo 
-- Code mbt /home/claude/Desktop/sources/python/python3/AI/Generative_Deep_Learning_2nd_Edition_Fork/notebooks/11_music/01_transformer/transformer.aangepast.ipynb
-  vanaf cel6 (show()) afmaken.
-- ivm bug draai code in aparte python script ipv van jupyter notebook  
+ToDo
+- Ivm bugs in Visual Code kan transformer.aangepast.ipynb niet gerunt worden
+  Visual code. Ook het runnen van transformer.aangepast.ipynb in een jupyter note book
+  vanuit de project python environment werkt niet.
+  Daarom is de code van transformer.aangepast.ipynb overgezet in het python script
+  music_gen_obv_generative_deep_learning_Transformer.py.
+  
+  Breng nog de code van transformer.aangepast.ipynb over naar
+  music_gen_obv_generative_deep_learning_Transformer.py.
+  Het betreft de code vanaf cel 25. 
+  De code werkt nu t/m cel24 (= model.fit)
+
+- Experimenteer met verschillende epoch waarden
+  de duur van 240 epochs duurt ongeveer 8 uur en 15 min op de MSI I7 laptop
+  Voor het afmaken van het programma gebruik, tijdelijk 5 epochs om ook 
+  code na cel24 snel te laten uitvoeren, om te kijken of het werkt.  
