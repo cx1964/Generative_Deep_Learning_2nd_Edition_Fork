@@ -37,10 +37,18 @@ FEED_FORWARD_DIM = 256
 LOAD_MODEL = False
 
 # optimization
-EPOCHS = 5000
+# *** Hier aanpassen ****
+# Orginele waarden
+# Duur van de verwerking op MSI I7 laptop
+# 240 epochs duurt ongveer 8uur en 15 min
+# EPOCHS = 5000
+# BATCH_SIZE = 256
+# GENERATE_LEN = 50
+EPOCHS = 240 # 5000
 BATCH_SIZE = 256
-
 GENERATE_LEN = 50
+
+
 
 # toegevoegd
 # Instellen van de Environment
