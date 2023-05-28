@@ -40,7 +40,9 @@ LOAD_MODEL = False
 # *** Hier aanpassen ****
 # Orginele waarden
 # Duur van de verwerking op MSI I7 laptop
-# 240 epochs duurt ongveer 8uur en 15 min
+# 240 epochs duurt ongveer 8uur en 15 min wat
+# overeenkomt met 240/5000 * 100% = 4.8% 
+# van het doorrekenen van het model
 # EPOCHS = 5000
 # BATCH_SIZE = 256
 # GENERATE_LEN = 50
