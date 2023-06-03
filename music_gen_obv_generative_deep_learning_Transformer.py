@@ -507,7 +507,6 @@ music_generator = MusicGenerator(notes_vocab, durations_vocab)
 
 #cel24
 print("begin cel24: model.fit")
-# Hier gaat wat fout
 model.fit(
     ds,
     epochs=EPOCHS,
@@ -520,7 +519,7 @@ model.fit(
 #print("einde cel24")
 
 #cel25
-print("afmaken cel25")
+print("cel25")
 # Save the final model
 model.save("./models/model")
 
