@@ -517,11 +517,96 @@ model.fit(
         music_generator,
     ],
 )
-# Hieronder wordt niet getoond !!!!!
-print("einde cel24")
+#print("einde cel24")
 
 #cel25
 print("afmaken cel25")
+# Save the final model
+model.save("./models/model")
 
-#cel26 
-   
+# 3. Generate music using the Transformer
+#cel26
+print("cel26: generate  show()") 
+info = music_generator.generate(
+    ["START"], ["0.0"], max_tokens=50, temperature=0.5
+)
+midi_stream = info[-1]["midi"].chordify()
+midi_stream.show()
+
+# Write music to MIDI file
+#cel27
+print("cel27:Write music to MIDI file") 
+timestr = time.strftime("%Y%m%d-%H%M%S")
+midi_stream.write(
+    "midi",
+    fp=os.path.join(
+        "/app/notebooks/11_music/01_transformer/output",
+        "output-" + timestr + ".mid",
+    ),
+)
+
+# Note probabilities
+#cel28
+max_pitch = 70
+seq_len = len(info)
+grid = np.zeros((max_pitch, seq_len), dtype=np.float32)
+
+for j in range(seq_len):
+    for i, prob in enumerate(info[j]["note_probs"]):
+        try:
+            pitch = music21.note.Note(notes_vocab[i]).pitch.midi
+            grid[pitch, j] = prob
+        except:
+            pass  # Don't show key / time signatures
+#cel29
+fig, ax = plt.subplots(figsize=(8, 8))
+ax.set_yticks([int(j) for j in range(35, 70)])
+plt.imshow(
+    grid[35:70, :],
+    origin="lower",
+    cmap="coolwarm",
+    vmin=-0.5,
+    vmax=0.5,
+    extent=[0, seq_len, 35, 70],
+)
+plt.show()
+
+# Attention Plot
+#cel30
+plot_size = 20
+
+att_matrix = np.zeros((plot_size, plot_size))
+prediction_output = []
+last_prompt = []
+
+#cel31
+for j in range(plot_size):
+    atts = info[j]["atts"].max(axis=0)
+    att_matrix[: (j + 1), j] = atts
+    prediction_output.append(info[j]["chosen_note"][0])
+    last_prompt.append(info[j]["prompt"][0][-1])
+
+#cel32
+# print("Cel32")
+fig, ax = plt.subplots(figsize=(8, 8))
+im = ax.imshow(att_matrix, cmap="Greens", interpolation="nearest")
+
+ax.set_xticks(np.arange(-0.5, plot_size, 1), minor=True)
+ax.set_yticks(np.arange(-0.5, plot_size, 1), minor=True)
+ax.grid(which="minor", color="black", linestyle="-", linewidth=1)
+ax.set_xticks(np.arange(plot_size))
+ax.set_yticks(np.arange(plot_size))
+ax.set_xticklabels(prediction_output[:plot_size])
+ax.set_yticklabels(last_prompt[:plot_size])
+ax.xaxis.tick_top()
+
+plt.setp(
+    ax.get_xticklabels(),
+    rotation=90,
+    ha="left",
+    va="center",
+    rotation_mode="anchor",
+)
+plt.show()
+
+print("Einde script")  
