@@ -539,7 +539,8 @@ timestr = time.strftime("%Y%m%d-%H%M%S")
 midi_stream.write(
     "midi",
     fp=os.path.join(
-        "/app/notebooks/11_music/01_transformer/output",
+        #"/app/notebooks/11_music/01_transformer/output",
+        HOME_DIR_PATH + "notebooks/11_music/01_transformer/output",
         "output-" + timestr + ".mid",
     ),
 )
