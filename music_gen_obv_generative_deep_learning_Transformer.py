@@ -44,7 +44,7 @@ LOAD_MODEL = False
 # EPOCHS = 5000
 # BATCH_SIZE = 256
 # GENERATE_LEN = 50
-EPOCHS = 50 # 240 # 5000 # 50 epochs verwacht doorloop tijd programma ongeveer 2 uur
+EPOCHS = 50 # 5 # 240 # 5000 # 50 epochs verwacht doorloop tijd programma ongeveer 2 uur
 BATCH_SIZE = 256
 GENERATE_LEN = 50
 
